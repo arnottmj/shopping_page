@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830154331) do
+ActiveRecord::Schema.define(version: 20160830165819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,12 @@ ActiveRecord::Schema.define(version: 20160830154331) do
     t.decimal  "product_total"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "basket_id"
+    t.integer  "product_id"
   end
+
+  add_index "basket_products", ["basket_id"], name: "index_basket_products_on_basket_id", using: :btree
+  add_index "basket_products", ["product_id"], name: "index_basket_products_on_product_id", using: :btree
 
   create_table "baskets", force: :cascade do |t|
     t.decimal  "total_price"
@@ -30,7 +35,10 @@ ActiveRecord::Schema.define(version: 20160830154331) do
     t.decimal  "discount_applied"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "user_id"
   end
+
+  add_index "baskets", ["user_id"], name: "index_baskets_on_user_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
@@ -59,4 +67,7 @@ ActiveRecord::Schema.define(version: 20160830154331) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "basket_products", "baskets"
+  add_foreign_key "basket_products", "products"
+  add_foreign_key "baskets", "users"
 end
