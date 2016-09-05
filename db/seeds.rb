@@ -6,4 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Product.delete_all
+seed_1 = Product.create name: "Almond Toe Court Shoes, Patent Black",
+                        price: 99.00,
+                        stock: 5
+
 
